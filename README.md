@@ -4,7 +4,7 @@
 
 ## Windows
 
-### Install ROS2 Foxy
+### Install ROS2 Jazzy
 
 There are some changes based on the version of Windows, here are the guides from which the individual steps are derived:
 - [Windows 10 (Official guide)](https://docs.ros.org/en/crystal/Installation/Windows-Install-Binary.html)
@@ -38,21 +38,21 @@ There are some changes based on the version of Windows, here are the guides from
 
 4. Install ROS2 Binaries
     1. In the Start Menu, find the "x64 Native Tools Command Prompt for VS 2019" item as administrator.
-    2. Install ROS2 Foxy with following commands
+    2. Install ROS2 Jazzy with following commands
 
         ```bash
         mkdir c:\opt\chocolatey
         set ChocolateyInstall=c:\opt\chocolatey
         choco source add -n=ros-win -s="https://aka.ms/ros/public" --priority=1
-        choco upgrade ros-foxy-desktop -y --execution-timeout=0 --pre
+        choco upgrade ros-jazzy-desktop -y --execution-timeout=0 --pre
         ```
 
 5. Test ROS2 Installation using example talker and listener
     1. In the Start Menu, find the "x64 Native Tools Command Prompt for VS 2019" item (don't start it as admin).
-    2. Activate ROS2 environment (this needs to be run on every new terminal using ROS2 Foxy)
+    2. Activate ROS2 environment (this needs to be run on every new terminal using ROS2 Jazzy)
 
         ```bash
-        c:\opt\ros\foxy\x64\setup.bat
+        c:\opt\ros\jazzy\x64\setup.bat
         ```
 
     3. Start C++ talker node
@@ -76,7 +76,7 @@ Run `kobukiSIM_setup.exe`, this will install the simulator and create shortcut o
 1. Open new terminal and activate ROS2 environment 
 
     ```bash
-    c:\opt\ros\foxy\x64\setup.bat
+    c:\opt\ros\jazzy\x64\setup.bat
     ```
 
 2. Create ROS2 Workspace anywhere you like 
@@ -118,9 +118,9 @@ Run `kobukiSIM_setup.exe`, this will install the simulator and create shortcut o
 
 ## Ubuntu 20.04
 
-### [Install ROS2 Foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
+### [Install ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 
-ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it needs to be built from source or other version of ROS2 should be used. This guide will however only handle ROS2 Foxy installation steps.
+ROS2 Jazzy is supported at Tier 1 on Ubuntu 24.04. On other versions of linux, it needs to be built from source or other version of ROS2 should be used. This guide will however only handle ROS2 Jazzy installation steps.
 
 1. Set locale
 
@@ -153,24 +153,24 @@ ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it
 3. Install ROS2 packages
 
     ```bash
-    sudo apt update && sudo apt upgrade
+    sudo apt update; sudo apt upgrade
 
     # Desktop Install (Recommended): ROS, RViz, demos, tutorials.
-    sudo apt install ros-foxy-desktop python3-argcomplete python3-colcon-common-extensions
+    sudo apt install ros-jazzy-desktop python3-argcomplete python3-colcon-common-extensions
     ```
 
 4. ROS2 environment setup
 
     ```bash
-    # Source ROS2 Foxy
-    source /opt/ros/foxy/setup.bash
+    # Source ROS2 Jazzy
+    source /opt/ros/jazzy/setup.bash
 
     # Limit ROS2 communication to your PC
-    export ROS_LOCALHOST_ONLY=1
+    export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
 
-    # [Optional] Permanent setup of ROS2 foxy
-    echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
-    echo "export ROS_LOCALHOST_ONLY=1" >> ~/.bashrc
+    # [Optional] Permanent setup of ROS2 Jazzy
+    echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+    echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> ~/.bashrc
     ```
 
 5. Test ROS2 Installation using example talker and listener
@@ -178,16 +178,16 @@ ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it
     1. Start C++ talker node in one terminal
 
         ```bash
-        source /opt/ros/foxy/setup.bash
-        export ROS_LOCALHOST_ONLY=1
+        source /opt/ros/jazzy/setup.bash
+        export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
         ros2 run demo_nodes_cpp talker
         ```
     
     2. Start Python listener node in second terminal. Messages sent from talker should be displayed in the listener.
 
         ```bash
-        source /opt/ros/foxy/setup.bash
-        export ROS_LOCALHOST_ONLY=1
+        source /opt/ros/jazzy/setup.bash
+        export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
         ros2 run demo_nodes_py listener
         ```
 
@@ -206,8 +206,12 @@ ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it
     unzip uds_kobuki_sim.zip
     ```
 
-3. Build and install Kobuki Simulator
-
+3. Build and install Kobuki Simulator  
+    * check and update OpenCV path - the path in the `kobukiSIM.pro` (line 58) has to match the OpenCV installation path found by
+    ```bash
+    sudo find / -type f -name core.hpp | grep opencv
+    ```
+    * compile and install
     ```bash
     cd uds_kobuki_sim
 
@@ -225,20 +229,20 @@ ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it
 1. Open new terminal and activate ROS2 environment 
 
     ```bash
-    source /opt/ros/foxy/setup.bash
-    export ROS_LOCALHOST_ONLY=1
+    source /opt/ros/jazzy/setup.bash
+    export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
     ```
 
 2. Create ROS2 Workspace anywhere you like 
 
     ```bash
-    mkdir ros2_ws\src
+    mkdir -p ros2_ws/cd ro  src
     ```
 
 3. Clone project to the workspace
 
     ```bash
-    cd ros2_ws\src
+    cd ros2_ws/src
     git clone https://github.com/stecf/uds_kobuki_ros.git
     ```
 
@@ -269,5 +273,10 @@ ROS2 Foxy is supported at Tier 1 on Ubuntu 20.04. On other versions of linux, it
     2. Using executable `cd /opt/kobuki/sim && ./kobukiSIM`
 2. Start Kobuki ROS
     1. Using shortcut
-    2. Using script in terminal `/opt/kobuki/install/share/uds_kobuki_ros/run.sh`
+    2. Using script in terminal `/opt/kobuki/install/uds_kobuki_ros/share/run.sh`
     3. Using ROS2 `ros2 run uds_kobuki_ros uds_kobuki_ros`
+3. [Optional] Test SIM <> ROS communication interface
+    ```bash
+    sudo apt install ros-jazzy-rqt-robot-steering`
+    ros2 run rqt_robot_steering rqt_robot_steering
+    ```
